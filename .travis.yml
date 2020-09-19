@@ -1,0 +1,10 @@
+language: node_js
+# super user permissions
+sudo: required
+services:
+  - docker
+# commands executed before running tests/deployment
+before_install:
+  - docker build -t ktk001/chat-node-app .
+script:
+  - docker run -e CI=true ktk001/chat-node-app npm test
