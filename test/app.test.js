@@ -17,6 +17,6 @@ test('default / route works', (done) => {
   request(testApp)
     .get('/test')
     .expect('Content-Type', 'application/json; charset=utf-8')
-    .expect({ name: 'hello' })
+    .expect({ status: 'working' })
     .expect(200, done);
 });
