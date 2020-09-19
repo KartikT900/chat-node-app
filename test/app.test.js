@@ -12,3 +12,11 @@ test('default / route works', (done) => {
     .expect({ name: 'hello' })
     .expect(200, done);
 });
+
+test('default / route works', (done) => {
+  request(testApp)
+    .get('/test')
+    .expect('Content-Type', 'application/json; charset=utf-8')
+    .expect({ status: 'working' })
+    .expect(200, done);
+});
