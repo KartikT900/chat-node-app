@@ -1,7 +1,9 @@
 const bcrypt = require('bcryptjs');
 
 const User = require('../models/User');
-const { generateUserId, hashPassword } = require('../helper');
+const ChatroomModel = require('../models/Chatroom');
+const ChatlogModel = require('../models/Chatlog');
+const { generateRandomId, hashPassword } = require('../helper');
 
 class UserRepository {
   static async decodePassword(plainText, password) {
@@ -12,18 +14,45 @@ class UserRepository {
 
     try {
       const hashedPassword = await hashPassword(password);
-      const userId = generateUserId();
-      const decoded = await this.decodePassword(hashedPassword, 'password');
-      console.log(decoded);
+      const userId = generateRandomId();
       const result = await User.create({
         username,
         password: hashedPassword,
-        userid: userId
+        userId
       });
       return result;
     } catch (e) {
       console.log('Failed in Service to add user');
       return result;
+    }
+  }
+
+  static async findUserByPk(userId) {
+    return await User.findByPk(userId);
+  }
+
+  static async findUser(userId) {
+    try {
+      const result = await User.findOne({
+        where: { userId: userId },
+        include: [
+          {
+            model: ChatroomModel,
+            as: 'chatrooms',
+            through: {
+              attributes: []
+            }
+          },
+          {
+            model: ChatlogModel,
+            as: 'usermessages'
+          }
+        ]
+      });
+
+      return result;
+    } catch (error) {
+      console.log('Failed while querying an user', error);
     }
   }
 }

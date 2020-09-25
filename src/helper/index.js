@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
  *
  * @returns randomly generated UserID with the prefix being current year
  */
-function generateUserId() {
+function generateRandomId() {
   const todaysDate = new Date(Date.now());
   const prefix = todaysDate.getFullYear();
   const suffix = parseInt(Math.random(0, 100000) * 10000);
@@ -18,6 +18,6 @@ async function hashPassword(password) {
 }
 
 module.exports = {
-  generateUserId,
+  generateRandomId,
   hashPassword
 };
