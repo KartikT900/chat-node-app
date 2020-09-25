@@ -1,5 +1,7 @@
 const express = require('express');
 const sequelize = require('./service/dbConnection');
+const UserModel = require('../src/models/User');
+const ChatroomModel = require('../src/models/Chatroom');
 const UserRepository = require('./service/UserRepository');
 const testRoute = require('./routes/sample');
 const PORT = 8080;
@@ -10,8 +12,10 @@ async function dbConnect() {
   try {
     await sequelize.authenticate();
     console.log('DB connection successful');
+    await sequelize.sync();
+    console.log('DB synchronization successful');
   } catch (e) {
-    console.log('DB connection failed');
+    console.log('DB connection failed', e);
   }
 }
 
