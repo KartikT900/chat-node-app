@@ -1,39 +1,47 @@
 const bcrypt = require('bcryptjs');
 
-const User = require('../models/User');
+//const User = require('../models/User');
 const ChatroomModel = require('../models/Chatroom');
 const ChatlogModel = require('../models/Chatlog');
-const { generateRandomId, hashPassword } = require('../helper');
+const helpers = require('../helper');
 
 class UserRepository {
+  constructor(user) {
+    this.user = user;
+  }
   static async decodePassword(plainText, password) {
     return await bcrypt.compare(password, plainText);
   }
-  static async addUser(username, password) {
+  async addUser(username, password) {
     let result = false;
 
     try {
-      const hashedPassword = await hashPassword(password);
-      const userId = generateRandomId();
-      const result = await User.create({
+      const hashedPassword = await helpers.hashPassword(password);
+      const userId = helpers.generateRandomId();
+      const result = await this.user.create({
         username,
         password: hashedPassword,
         userId
       });
       return result;
     } catch (e) {
-      console.log('Failed in Service to add user');
+      console.log('Failed in Service to add user', e);
       return result;
     }
   }
 
-  static async findUserByPk(userId) {
-    return await User.findByPk(userId);
+  async findUserByPk(userId) {
+    try {
+      const result = await this.user.findByPk(userId);
+      return result;
+    } catch (error) {
+      console.log('Failed to fetch user details', error);
+    }
   }
 
-  static async findUser(userId) {
+  async findUser(userId) {
     try {
-      const result = await User.findOne({
+      const result = await this.user.findOne({
         where: { userId: userId },
         include: [
           {

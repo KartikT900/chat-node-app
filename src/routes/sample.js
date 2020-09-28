@@ -1,11 +1,12 @@
 const express = require('express');
 const test = express.Router();
+const UserModel = require('../models/User');
 const UserRepository = require('../service/UserRepository');
 const ChatroomRepository = require('../service/ChatroomRepository');
 const ChatlogRepository = require('../service/ChatlogRepository');
 
 test.get('/', async (req, res) => {
-  const user = await UserRepository.addUser('Test', 'password');
+  const user = await new UserRepository(UserModel).addUser('Test1', 'password');
   const chatroom = await ChatroomRepository.addChatroom('Private');
   await user.addChatrooms(chatroom);
 
@@ -31,7 +32,7 @@ test.get('/message', async (req, res) => {
   res.json(user);
 });
 
-test.get('/sample', (req, res) => {
+test.get('/sample1', (req, res) => {
   res.json({ status: 'good' });
 });
 

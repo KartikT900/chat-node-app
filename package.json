@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index",
     "dev": "nodemon index",
-    "test": "jest --detectOpenHandles"
+    "test": "jest --detectOpenHandles --coverage --watchAll"
   },
   "repository": {
     "type": "git",
@@ -37,8 +37,27 @@
     "sequelize": "^5.19.3"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.14",
     "jest": "^26.4.2",
-    "mocha": "^8.1.3",
     "supertest": "^4.0.2"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverageFrom": [
+      "src/*.js",
+      "src/controller/*.js",
+      "src/helper/*.js",
+      "src/models/*.js",
+      "src/routes/*.js",
+      "src/service/*.js"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
+      }
+    }
   }
 }

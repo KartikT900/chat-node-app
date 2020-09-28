@@ -1,18 +1,24 @@
-const ChatroomModel = require('../models/Chatroom');
-const { generateRandomId } = require('../helper/index');
+const helpers = require('../helper');
 
 class ChatroomRepository {
+  constructor(chatroomModel) {
+    this.chatroomModel = chatroomModel;
+  }
   /**
    *
    * @param {string} chatroomType Describes the type of chatroom
    */
-  static async addChatroom(chatroomType) {
-    const result = await ChatroomModel.create({
-      chatroomId: generateRandomId(),
-      chatroomType
-    });
+  async addChatroom(chatroomType) {
+    try {
+      const result = await this.chatroomModel.create({
+        chatroomId: helpers.generateRandomId(),
+        chatroomType
+      });
 
-    return result;
+      return result;
+    } catch (error) {
+      console.log('Failed to create new chatroom', error);
+    }
   }
 }
 

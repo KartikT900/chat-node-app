@@ -17,7 +17,8 @@ async function hashPassword(password) {
   return bcrypt.hash(password, 10);
 }
 
-module.exports = {
+const helpers = {
   generateRandomId,
   hashPassword
 };
+module.exports = helpers;
