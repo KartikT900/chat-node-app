@@ -16,4 +16,20 @@ describe('chatroomRepository', () => {
       chatroomType: 'Test'
     });
   });
+
+  it('should catch error when service fails to add chatroom', async () => {
+    const error = new Error('service failed');
+    const chatroomModel = {
+      create: jest.fn(() => {
+        throw error;
+      })
+    };
+    const consoleLogSpy = jest.spyOn(console, 'log');
+    const chatroomService = new ChatroomService(chatroomModel);
+
+    await chatroomService.addChatroom('Test');
+    expect(chatroomModel.create).toBeCalledTimes(1);
+    expect(chatroomModel.create).toThrow('service failed');
+    expect(consoleLogSpy).toBeCalledTimes(1);
+  });
 });

@@ -14,7 +14,7 @@ function generateRandomId() {
 }
 
 async function hashPassword(password) {
-  return bcrypt.hash(password, 10);
+  return await bcrypt.hash(password, 10);
 }
 
 const helpers = {

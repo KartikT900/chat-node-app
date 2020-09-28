@@ -1,8 +1,5 @@
 const express = require('express');
 const sequelize = require('./service/dbConnection');
-const UserModel = require('../src/models/User');
-const ChatroomModel = require('../src/models/Chatroom');
-const UserRepository = require('./service/UserRepository');
 const testRoute = require('./routes/sample');
 const PORT = 8080;
 

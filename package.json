@@ -7,7 +7,7 @@
     "start": "node index",
     "dev": "nodemon index",
     "dev:test": "jest --detectOpenHandles --coverage --watchAll",
-    "test": "jest --coverage"
+    "test": "jest --coverage --silent"
   },
   "repository": {
     "type": "git",
