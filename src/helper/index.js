@@ -17,9 +17,9 @@ async function hashPassword(password) {
   return await bcrypt.hash(password, 10);
 }
 /**
- * 
+ *
  * @param {string} string input that needs to be validated
- * 
+ *
  * @returns {boolean} returns true if valid string or false otherwise
  */
 function validateString(string) {

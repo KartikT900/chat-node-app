@@ -1,6 +1,5 @@
 const bcrypt = require('bcryptjs');
 
-//const User = require('../models/User');
 const ChatroomModel = require('../models/Chatroom');
 const ChatlogModel = require('../models/Chatlog');
 const helpers = require('../helper');
@@ -12,13 +11,14 @@ class UserRepository {
   static async decodePassword(plainText, password) {
     return await bcrypt.compare(password, plainText);
   }
-  async addUser(username, password) {
+  async addUser(email, username, password) {
     let result = false;
 
     try {
       const hashedPassword = await helpers.hashPassword(password);
       const userId = helpers.generateRandomId();
       const result = await this.user.create({
+        email,
         username,
         password: hashedPassword,
         userId
