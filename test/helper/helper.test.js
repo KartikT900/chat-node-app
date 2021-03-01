@@ -47,6 +47,7 @@ describe('generateRandomId', () => {
       [123, false],
       ['test@.com', false],
       ['test.com', false],
+      ['test#123.com', false],
       ['test@test.com', true]
     ])(
       '.should return $expected when input string is $input',
