@@ -6,7 +6,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 module.exports = {
-  user: process.env.USER,
+  user: process.env.DATABASE_USER,
   password: process.env.PASSWORD,
   dbPort: process.env.DATABASE_PORT,
   connectionString: process.env.CONNECTIONSTRING,
