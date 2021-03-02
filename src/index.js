@@ -51,7 +51,7 @@ io.on('connection', (socket) => {
     console.log(data);
     const { roomId, userId } = data || {};
     socket.join(roomId);
-    socket.to(roomId).broadcast.emit('user-connected', userId);
+    socket.to(roomId).broadcast.emit('user-connected1', userId);
   });
 });
 
