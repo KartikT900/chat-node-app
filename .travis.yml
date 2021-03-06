@@ -10,14 +10,14 @@ before_install:
   - docker build -t ktk001/chat-node-app .
 script:
   - docker run -e CI=true ktk001/chat-node-app npm test
-# Commenting deploy script for now
-# deploy:
-#   provider: elasticbeanstalk
-#   region: 'ap-south-1'
-#   app: 'chat-node-app'
-#   env: 'ChatNodeApp-env'
-#   bucket_name: 'elasticbeanstalk-ap-south-1-727728554532'
-#   on:
-#     branch: master # deploy only when commit changes on master
-#   access_key_id: $AWS_ACCESS_KEY
-#   secret_access_key: $AWS_SECRET_KEY
+
+deploy:
+  provider: elasticbeanstalk
+  region: 'ap-south-1'
+  app: 'chat-node-app'
+  env: 'ChatNodeApp-env'
+  bucket_name: 'elasticbeanstalk-ap-south-1-727728554532'
+  on:
+    branch: master # deploy only when commit changes on master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
