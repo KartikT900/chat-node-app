@@ -44,14 +44,24 @@ app.use('/api/v1/user', userRoute);
  * @todo Need this to be removed, once the client codebase is ready
  * @todo Refactor this for better clarity
  */
-app.get('/', (req, res) => {
-  res.redirect(`/${uuidV4()}`);
+app.get('/video', (req, res) => {
+  res.redirect(`/video/${uuidV4()}`);
 });
 
-app.get('/:roomId', (req, res) => {
+app.get('/chat', (req, res) => {
+  res.redirect(`/chat/${uuidV4()}`);
+});
+
+app.get('/video/:roomId', (req, res) => {
   const roomId = req.params.roomId;
 
-  res.render(`${__dirname}/views/room`, { roomId });
+  res.render(`${__dirname}/views/videochatroom`, { roomId });
+});
+
+app.get('/chat/:roomId', (req, res) => {
+  const roomId = req.params.roomId;
+
+  res.render(`${__dirname}/views/chatonlyroom`, { roomId });
 });
 
 /**
