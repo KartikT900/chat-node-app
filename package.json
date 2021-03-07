@@ -1,6 +1,9 @@
 {
   "name": "chat-node-app",
   "version": "1.0.0",
+  "engines": {
+    "node": "15"
+  },
   "description": "A Backend service for Chat App",
   "main": "index.js",
   "scripts": {
