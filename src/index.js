@@ -13,7 +13,7 @@ const sequelize = require('./service/dbConnection');
 const testRoute = require('./routes/sample');
 const userRoute = require('./routes/UserRoute');
 
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 const rooms = {};
 
 app.use(express.json());
@@ -94,7 +94,7 @@ io.on('connection', (socket) => {
   });
 });
 
-http.listen(8080, async () => {
+http.listen(PORT, async () => {
   // await dbConnect();̀
   console.log(`Server started on ${PORT}`);
 });
