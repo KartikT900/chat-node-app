@@ -7,7 +7,7 @@
     
     <title>Socket.IO chat</title>
     <script src="/socket.io/socket.io.js" defer></script>
-    <script src="script.js" defer></script>
+    <script src="/webrtc_dataonly_script.js" defer></script>
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body { font: 13px Helvetica, Arial; }
@@ -30,14 +30,9 @@
     </style>
   </head>
   <body>
-    <section id='connected'></section>
     <ul id="messages"></ul>
-    <div class='video-screens'>
-      <video autoplay playsinline id='self-video'></video>
-      <video autoplay playsinline id='partner-video'></video>
-    </div>
     <div id='chat'>
-      <input id="m" autocomplete="off" /><button onclick="sendChat()">Send</button>
+      <input id="m" autocomplete="off" /><button onclick="sendMessage()">Send</button>
     </div>
   </body>
 </html>
