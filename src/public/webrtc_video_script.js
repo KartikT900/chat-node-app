@@ -85,7 +85,7 @@ function createPeer(userId) {
   const peer = new RTCPeerConnection({
     iceServers: [
       {
-        urls: 'stun:stun.ideasip.com'
+        urls: 'stun:stun.l.google.com:19302'
       },
       {
         urls: 'turn:numb.viagenie.ca',
@@ -139,28 +139,35 @@ async function handleIceCandidateMsg(incomingMsg) {
 }
 
 async function getUserMedia() {
-  await navigator.getUserMedia(
-    { video: true },
-    (stream) => {
-      selfVideo = document.getElementById('self-video');
-      userStream.stream = stream;
-      selfVideo.srcObject = stream;
+  if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
+    await navigator.mediaDevices.getUserMedia(
+      { video: true },
+      (stream) => {
+        selfVideo = document.getElementById('self-video');
+        userStream.stream = stream;
+        selfVideo.srcObject = stream;
 
-      socket.emit('join-room', roomId);
+        socket.emit('join-room', roomId);
 
-      socket.on('new-user', (userId) => {
-        requestForCall(userId);
-        otherUser.userId = userId;
-      });
+        socket.on('new-user', (userId) => {
+          requestForCall(userId);
+          otherUser.userId = userId;
+        });
 
-      socket.on('user-joined', (userId) => {
-        otherUser.userId = userId;
-      });
+        socket.on('user-joined', (userId) => {
+          otherUser.userId = userId;
+        });
 
-      socket.on('offer', handleCallRequest);
-      socket.on('answer', handleAnswer);
-      socket.on('ice-candidate', handleIceCandidateMsg);
-    },
-    () => console.log('no media device found!!')
-  );
+        socket.on('offer', handleCallRequest);
+        socket.on('answer', handleAnswer);
+        socket.on('ice-candidate', handleIceCandidateMsg);
+      },
+      () => console.log('no media device found!!')
+    );
+  } else {
+    window.confirm(
+      "This device doesn't support media capture!. Please click on OK to close this tab."
+    );
+    return;
+  }
 }
