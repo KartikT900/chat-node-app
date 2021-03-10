@@ -64,6 +64,8 @@ app.get('/chat/:roomId', (req, res) => {
   res.render(`${__dirname}/views/chatonlyroom`, { roomId });
 });
 
+app.post('/chat/:roomId', (req, res) => {});
+
 /**
  * The purpose of socket.io is to serve as an intermediary(middleware)
  * and facilitate the ̀handshake process between two peers. Once the

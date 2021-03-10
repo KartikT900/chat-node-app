@@ -16,6 +16,7 @@ Chatroom.init(
       allowNull: false,
       primaryKey: true
     },
+    // Type -> Private for chat with 2 participants. Group for more than 2.
     chatroomType: {
       type: DataTypes.STRING,
       allowNull: false
