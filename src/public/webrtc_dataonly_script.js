@@ -24,8 +24,18 @@ const sendChannel = {
  * ]
  */
 const messageList = [];
+const message = {
+  current: ''
+};
+
+const throttledEvent = _.throttle(emitTypeEvent, 500);
+document.getElementById('m').addEventListener('input', handleInput);
 
 initiateChat();
+
+function emitTypeEvent() {
+  socket.emit('on-type', { id: socket.id, room: roomId });
+}
 
 function setMessages(message, type) {
   if (type === 'self') {
@@ -62,6 +72,14 @@ function renderHtml(parent, content, element = 'p') {
   return parentEl.appendChild(newElement);
 }
 
+function handleInput() {
+  throttledEvent();
+}
+
+function handleTypingStopEvent() {
+  socket.emit('on-type-stop', { id: socket.id, room: roomId });
+}
+
 function handleRecieveDataChannel(event) {
   sendChannel.current = event.channel;
   sendChannel.current.onmessage = handleRecieveMessage;
@@ -73,6 +91,7 @@ function sendMessage() {
   setMessages(message.value, 'self');
   message.value = '';
   message.focus();
+  handleTypingStopEvent();
 }
 // This is when we are recieving the call from the other peer. That is, we are on the receiver side of this call.
 async function handleCallRequest(incomingCall) {
@@ -172,6 +191,11 @@ async function handleIceCandidateMsg(incomingMsg) {
   }
 }
 
+function handleTypeEvent(id, active) {
+  const p = document.getElementById('typing');
+  p.innerHTML = active ? `<strong>${id}</strong> is typing.....` : '';
+}
+
 function initiateChat() {
   socket.emit('join-room', roomId);
 
@@ -187,4 +211,12 @@ function initiateChat() {
   socket.on('offer', handleCallRequest);
   socket.on('answer', handleAnswer);
   socket.on('ice-candidate', handleIceCandidateMsg);
+
+  socket.on('on-type', (id) => {
+    handleTypeEvent(id, true);
+  });
+
+  socket.on('on-type-stop', (id) => {
+    handleTypeEvent(id, false);
+  });
 }
