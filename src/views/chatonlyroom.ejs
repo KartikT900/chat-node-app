@@ -32,7 +32,10 @@
   <body>
     <ul id="messages"></ul>
     <div id='chat'>
-      <input id="m" autocomplete="off" /><button onclick="sendMessage()">Send</button>
+      <p id='typing'></p>
+      <input id="m" autocomplete="off"/><button onclick="sendMessage()">Send</button>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js" integrity="sha256-qXBd/EfAdjOA2FGrGAG+b3YBn2tn5A6bhz+LSgYD96k=" crossorigin="anonymous"></script>
   </body>
 </html>

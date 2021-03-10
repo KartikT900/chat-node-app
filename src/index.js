@@ -81,7 +81,6 @@ io.on('connection', (socket) => {
 
     const otherUser = rooms[roomId].find((id) => id !== socket.id);
     if (otherUser) {
-      console.log('inside other user', otherUser);
       socket.emit('new-user', otherUser);
       socket.to(otherUser).emit('user-joined', otherUser);
     }
@@ -90,17 +89,26 @@ io.on('connection', (socket) => {
   });
 
   socket.on('offer', (data) => {
-    console.log('offer:', data);
     io.to(data.target).emit('offer', data);
   });
 
   socket.on('answer', (data) => {
-    console.log('answer:', data);
     io.to(data.target).emit('answer', data);
   });
 
   socket.on('ice-candidate', (data) => {
     io.to(data.target).emit('ice-candidate', data.candidate);
+  });
+
+  socket.on('on-type', (data) => {
+    const otherUser = rooms[data.room].find((id) => id !== data.id);
+    console.log(otherUser);
+    io.to(otherUser).emit('on-type', data.id);
+  });
+
+  socket.on('on-type-stop', (data) => {
+    const otherUser = rooms[data.room].find((id) => id !== data.id);
+    io.to(otherUser).emit('on-type-stop', data.id);
   });
 });
 
